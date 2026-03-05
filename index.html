@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IFMG Hub - Campus Ibirité</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Ícones (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        // Cores oficiais do IFMG
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ifmg: {
+                            light: '#4CAF50',
+                            DEFAULT: '#2E7D32', /* Verde IFMG */
+                            dark: '#1B5E20',
+                            red: '#D32F2F',    /* Vermelho IFMG */
+                            gray: '#F4F7F6'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Estilo para os cards de documentos */
+        .doc-item:hover .doc-icon { color: #D32F2F; }
+        .doc-link { transition: all 0.2s; }
+        .doc-link:hover { background-color: #f8fafc; transform: translateX(4px); border-left-color: #2E7D32; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col">
+
+    <!-- Cabeçalho -->
+    <header class="bg-ifmg text-white shadow-md sticky top-0 z-50">
+        <!-- Faixa de destaque no topo -->
+        <div class="h-1 w-full bg-gradient-to-r from-ifmg-dark via-ifmg-light to-ifmg-red"></div>
+        
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Logo IFMG Ibirité -->
+            <div class="flex items-center space-x-3 w-1/3">
+                <div class="bg-white px-2 py-1 rounded shadow-inner flex items-center border-b-2 border-ifmg-red font-black text-xl tracking-tighter">
+                    <span class="text-ifmg-dark">IF</span><span class="text-ifmg-red">MG</span>
+                </div>
+                <div class="flex flex-col leading-tight hidden sm:flex">
+                    <span class="font-bold text-sm tracking-wide uppercase">Campus</span>
+                    <span class="font-light text-xs">Ibirité</span>
+                </div>
+            </div>
+
+            <!-- Título Central -->
+            <div class="w-1/3 text-center">
+                <h1 class="text-xl md:text-2xl font-extrabold tracking-tight flex items-center justify-center gap-2">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5 md:w-6 md:h-6 text-ifmg-light"></i>
+                    Hub Estudantil
+                </h1>
+            </div>
+
+            <div class="w-1/3 flex justify-end">
+                <div class="flex items-center gap-2 text-sm bg-white/10 px-3 py-1.5 rounded-full">
+                    <i data-lucide="user" class="w-4 h-4"></i>
+                    <span class="hidden md:inline">Meu Perfil</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu de Navegação -->
+        <nav class="bg-ifmg-dark">
+            <div class="container mx-auto px-2">
+                <ul class="flex overflow-x-auto hide-scrollbar text-sm md:text-base font-medium whitespace-nowrap justify-start lg:justify-center">
+                    <li>
+                        <button onclick="changeTab('inicio')" id="btn-inicio" class="tab-btn flex items-center gap-2 px-5 py-3 border-b-4 border-ifmg-light text-white bg-white/5 transition-all">
+                            <i data-lucide="home" class="w-4 h-4"></i> Início
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="changeTab('documentos')" id="btn-documentos" class="tab-btn flex items-center gap-2 px-5 py-3 border-b-4 border-transparent text-gray-300 hover:text-white hover:bg-white/5 transition-all">
+                            <i data-lucide="folder-open" class="w-4 h-4"></i> Documentos
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="changeTab('sustentabilidade')" id="btn-sustentabilidade" class="tab-btn flex items-center gap-2 px-5 py-3 border-b-4 border-transparent text-gray-300 hover:text-white hover:bg-white/5 transition-all">
+                            <i data-lucide="leaf" class="w-4 h-4"></i> Sustentabilidade
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="changeTab('ideias')" id="btn-ideias" class="tab-btn flex items-center gap-2 px-5 py-3 border-b-4 border-transparent text-gray-300 hover:text-white hover:bg-white/5 transition-all">
+                            <i data-lucide="lightbulb" class="w-4 h-4"></i> Mural de Ideias
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="changeTab('faq')" id="btn-faq" class="tab-btn flex items-center gap-2 px-5 py-3 border-b-4 border-transparent text-gray-300 hover:text-white hover:bg-white/5 transition-all">
+                            <i data-lucide="help-circle" class="w-4 h-4"></i> FAQ
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-6xl">
+
+        <!-- ================= INÍCIO ================= -->
+        <section id="inicio" class="tab-content active">
+            <div class="bg-white rounded-xl shadow-sm p-6 md:p-8 mb-8 border border-gray-200 relative overflow-hidden flex flex-col md:flex-row items-center gap-6">
+                <div class="flex-1 z-10">
+                    <span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block">Projeto de Extensão</span>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Bem-vindo ao IFMG Hub</h2>
+                    <p class="text-gray-600 text-lg mb-4">A plataforma criada por alunos para alunos do Campus Ibirité. Chega de se perder no site institucional! Encontre documentos, tire dúvidas e participe de ações sustentáveis em um só lugar.</p>
+                </div>
+                <div class="opacity-10 md:opacity-100 md:text-ifmg-light/20 absolute md:relative right-0 pointer-events-none">
+                    <i data-lucide="network" class="w-48 h-48 md:w-32 md:h-32"></i>
+                </div>
+            </div>
+
+            <!-- Acesso Rápido -->
+            <h3 class="font-bold text-xl mb-4 text-gray-800 flex items-center gap-2"><i data-lucide="zap" class="text-yellow-500"></i> Acesso Rápido aos Sistemas</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <a href="https://ead.ifmg.edu.br/ibirite/" target="_blank" class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 hover:border-ifmg hover:shadow-md transition-all flex items-center gap-4 group">
+                    <div class="bg-blue-100 p-3 rounded-lg text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors"><i data-lucide="monitor-play"></i></div>
+                    <div>
+                        <h4 class="font-bold text-gray-800">Moodle (AVA)</h4>
+                        <p class="text-xs text-gray-500">Salas virtuais e envio de trabalhos</p>
+                    </div>
+                </a>
+                <a href="https://suap.ifmg.edu.br/" target="_blank" class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 hover:border-ifmg hover:shadow-md transition-all flex items-center gap-4 group">
+                    <div class="bg-green-100 p-3 rounded-lg text-green-600 group-hover:bg-green-600 group-hover:text-white transition-colors"><i data-lucide="laptop"></i></div>
+                    <div>
+                        <h4 class="font-bold text-gray-800">SUAP</h4>
+                        <p class="text-xs text-gray-500">Notas, faltas, horários e certificados</p>
+                    </div>
+                </a>
+                <a href="https://pergamum.ifmg.edu.br/" target="_blank" class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 hover:border-ifmg hover:shadow-md transition-all flex items-center gap-4 group">
+                    <div class="bg-orange-100 p-3 rounded-lg text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-colors"><i data-lucide="library"></i></div>
+                    <div>
+                        <h4 class="font-bold text-gray-800">Pergamum</h4>
+                        <p class="text-xs text-gray-500">Biblioteca e renovação</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ================= DOCUMENTOS (COMPLEXO E REALISTA) ================= -->
+        <section id="documentos" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">Diretório Central de Documentos</h2>
+                <p class="text-gray-600 mt-2">Mapeamento completo dos arquivos do IFMG Campus Ibirité. Clique nos links para ser redirecionado aos documentos oficiais originais.</p>
+            </div>
+
+            <!-- CURSOS SUPERIORES -->
+            <div class="flex items-center gap-3 mb-4 mt-8">
+                <span class="bg-ifmg-dark text-white p-2 rounded-lg shadow-sm"><i data-lucide="graduation-cap"></i></span>
+                <h3 class="text-2xl font-bold text-gray-800">Cursos Superiores (Bacharelado)</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+                <!-- Eng. de Controle e Automação -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col">
+                    <div class="bg-gray-50 p-5 border-b border-gray-200">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="bg-ifmg text-white p-2 rounded-lg"><i data-lucide="cpu" class="w-5 h-5"></i></div>
+                            <h4 class="font-bold text-lg text-gray-800">Engenharia de Controle e Automação</h4>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-xs text-gray-600">
+                            <p><span class="font-bold text-gray-800">Carga Horária:</span> 3.600h</p>
+                            <p><span class="font-bold text-gray-800">Turno:</span> Integral/Diurno</p>
+                            <p class="col-span-2"><span class="font-bold text-gray-800">Contato:</span> gabinete.ibirite@ifmg.edu.br</p>
+                        </div>
+                    </div>
+                    <div class="p-2 flex-grow">
+                        <!-- Redirecionamento Real -->
+                        <a href="https://www.ifmg.edu.br/ibirite/nossos-cursos/documentos-curso-superior/PPCEngautomaoTURMA2020.120200204_2PPCGECA1.pdf" target="_blank" class="doc-link flex items-center justify-between p-3 border-l-4 border-transparent rounded cursor-pointer border-b border-gray-100 last:border-0 group">
+                            <div class="flex items-start gap-3">
+                                <i data-lucide="file-text" class="text-red-500 w-5 h-5 mt-0.5"></i>
+                                <div>
+                                    <span class="text-gray-800 font-medium block group-hover:text-ifmg-dark">Projeto Pedagógico de Curso (PPC)</span>
+                                    <span class="text-xs text-gray-500">Versão: 2020 | Formato: PDF Oficial</span>
+                                </div>
+                            </div>
+                            <i data-lucide="external-link" class="w-4 h-4 text-gray-400 group-hover:text-ifmg"></i>
+                        </a>
+                        <!-- Redirecionamento Real -->
+                        <a href="https://www.ifmg.edu.br/ibirite/nossos-cursos/documentos-curso-superior/SEI_IFMG1141189PlanodeTrabalhoCoordenao_FbioLucio7.pdf" target="_blank" class="doc-link flex items-center justify-between p-3 border-l-4 border-transparent rounded cursor-pointer border-b border-gray-100 last:border-0 group">
+                            <div class="flex items-start gap-3">
+                                <i data-lucide="clipboard-list" class="text-blue-500 w-5 h-5 mt-0.5"></i>
+                                <div>
+                                    <span class="text-gray-800 font-medium block group-hover:text-ifmg-dark">Plano de Ação da Coordenação</span>
+                                    <span class="text-xs text-gray-500">Documento SEI: 1141189 | Gestão Atual</span>
+                                </div>
+                            </div>
+                            <i data-lucide="external-link" class="w-4 h-4 text-gray-400 group-hover:text-ifmg"></i>
+                        </a>
+                        <a href="#" class="doc-link flex items-center justify-between p-3 border-l-4 border-transparent rounded cursor-pointer border-b border-gray-100 last:border-0 group">
+                            <div class="flex items-start gap-3">
+                                <i data-lucide="briefcase" class="text-orange-500 w-5 h-5 mt-0.5"></i>
+                                <div>
+                                    <span class="text-gray-800 font-medium block group-hover:text-ifmg-dark">Regulamento de Estágio Supervisionado</span>
+                                    <span class="text-xs text-gray-500">Anexo do PPC | Carga horária: 360h</span>
+                                </div>
+                            </div>
+                            <i data-lucide="download" class="w-4 h-4 text-gray-400 group-hover:text-ifmg"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Sistemas de Informação / Computação -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col">
+                    <div class="bg-gray-50 p-5 border-b border-gray-200">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="bg-blue-600 text-white p-2 rounded-lg"><i data-lucide="code" class="w-5 h-5"></i></div>
+                            <h4 class="font-bold text-lg text-gray-800">Sistemas de Informação</h4>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-xs text-gray-600">
+                            <p><span class="font-bold text-gray-800">Carga Horária:</span> 3.200h</p>
+                            <p><span class="font-bold text-gray-800">Modalidade:</span> Bacharelado</p>
+                            <p class="col-span-2"><span class="font-bold text-gray-800">Eixo:</span> Informação e Comunicação</p>
+                        </div>
+                    </div>
+                    <div class="p-2 flex-grow">
+                        <a href="https://www.ifmg.edu.br/sabara/nossos-cursos/nivel-superior/NOVO_PPC_BSI__Sabara.pdf" target="_blank" class="doc-link flex items-center justify-between p-3 border-l-4 border-transparent rounded cursor-pointer border-b border-gray-100 last:border-0 group">
+                            <div class="flex items-start gap-3">
+                                <i data-lucide="file-text" class="text-red-500 w-5 h-5 mt-0.5"></i>
+                                <div>
+                                    <span class="text-gray-800 font-medium block group-hover:text-blue-600">Projeto Pedagógico de Curso (PPC Base)</span>
+                                    <span class="text-xs text-gray-500">Diretrizes Nacionais | Formato: PDF</span>
+                                </div>
+                            </div>
+                            <i data-lucide="external-link" class="w-4 h-4 text-gray-400 group-hover:text-blue-600"></i>
+                        </a>
+                        <a href="#" class="doc-link flex items-center justify-between p-3 border-l-4 border-transparent rounded cursor-pointer border-b border-gray-100 last:border-0 group">
+                            <div class="flex items-start gap-3">
+                                <i data-lucide="file-spreadsheet" class="text-green-600 w-5 h-5 mt-0.5"></i>
+                                <div>
+                                    <span class="text-gray-800 font-medium block group-hover:text-blue-600">Planilha de Atividades Complementares (ACG)</span>
+                                    <span class="text-xs text-gray-500">Modelo Editável (.xlsx) para envio no SUAP</span>
+                                </div>
+                            </div>
+                            <i data-lucide="download" class="w-4 h-4 text-gray-400 group-hover:text-blue-600"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CURSOS TÉCNICOS -->
+            <div class="flex items-center gap-3 mb-4 mt-10">
+                <span class="bg-gray-800 text-white p-2 rounded-lg shadow-sm"><i data-lucide="book-open"></i></span>
+                <h3 class="text-2xl font-bold text-gray-800">Cursos Técnicos (Integrado e Concomitante/Subsequente)</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- Mecatrônica -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 hover:shadow-md transition-shadow">
+                    <h4 class="font-bold text-gray-800 text-lg flex items-center gap-2 mb-2"><i data-lucide="bot" class="text-purple-600"></i> Mecatrônica</h4>
+                    <div class="mb-4 bg-purple-50 p-3 rounded-lg text-xs text-gray-700">
+                        <p class="mb-1"><strong>Coordenador:</strong> Prof. Dante Donizeti Pereira</p>
+                        <p class="mb-1"><strong>E-mail:</strong> mecatronica.ibirite@ifmg.edu.br</p>
+                        <p><strong>Vagas:</strong> 40 (Integrado) / 40 (Subsequente)</p>
+                    </div>
+                    <div class="space-y-1">
+                        <!-- Redirecionamento Real -->
+                        <a href="https://www.ifmg.edu.br/ibirite/nossos-cursos/tecnico-1/tecnico-integrado-em-mecatronica" target="_blank" class="doc-link flex flex-col p-2 border-l-2 border-transparent hover:bg-gray-50 rounded">
+                            <span class="text-sm font-semibold text-gray-800 flex items-center gap-1"><i data-lucide="link-2" class="w-3 h-3 text-purple-600"></i> Página Oficial do Curso</span>
+                            <span class="text-xs text-gray-500 pl-4">Acesso a Resolução nº 25 de 2018</span>
+                        </a>
+                        <!-- Redirecionamento Real -->
+                        <a href="https://www.ifmg.edu.br/ibirite/nossos-cursos/tecnico-1/copy2_of_PPCIBCMECTMATRIZ2024.1.pdf" target="_blank" class="doc-link flex flex-col p-2 border-l-2 border-transparent hover:bg-gray-50 rounded">
+                            <span class="text-sm font-semibold text-gray-800 flex items-center gap-1"><i data-lucide="file-text" class="w-3 h-3 text-red-500"></i> PPC Concomitante 2024</span>
+                            <span class="text-xs text-gray-500 pl-4">Carga horária total: 1.200h (Noturno)</span>
+                        </a>
+                        <a href="https://ead.ifmg.edu.br/ibirite/course/index.php?categoryid=28" target="_blank" class="doc-link flex flex-col p-2 border-l-2 border-transparent hover:bg-gray-50 rounded">
+                            <span class="text-sm font-semibold text-gray-800 flex items-center gap-1"><i data-lucide="monitor" class="w-3 h-3 text-blue-500"></i> Acesso AVA - Disciplinas EAD</span>
+                            <span class="text-xs text-gray-500 pl-4">Ambiente Virtual de Aprendizagem</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Automação Industrial -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 hover:shadow-md transition-shadow">
+                    <h4 class="font-bold text-gray-800 text-lg flex items-center gap-2 mb-2"><i data-lucide="factory" class="text-orange-600"></i> Automação Industrial</h4>
+                    <div class="mb-4 bg-orange-50 p-3 rounded-lg text-xs text-gray-700">
+                        <p class="mb-1"><strong>Modalidade:</strong> Integrado / Concomitante</p>
+                        <p class="mb-1"><strong>Eixo:</strong> Controle e Processos Industriais</p>
+                        <p><strong>Laboratórios:</strong> Comandos Elétricos, CLP, Pneumática</p>
+                    </div>
+                    <div class="space-y-1">
+                        <a href="#" class="doc-link flex flex-col p-2 border-l-2 border-transparent hover:bg-gray-50 rounded">
+                            <span class="text-sm font-semibold text-gray-800 flex items-center gap-1"><i data-lucide="file-text" class="w-3 h-3 text-red-500"></i> PPC Automação Industrial</span>
+                            <span class="text-xs text-gray-500 pl-4">Grade Integrada ao Ensino Médio</span>
+                        </a>
+                        <a href="#" class="doc-link flex flex-col p-2 border-l-2 border-transparent hover:bg-gray-50 rounded">
+                            <span class="text-sm font-semibold text-gray-800 flex items-center gap-1"><i data-lucide="calendar-days" class="w-3 h-3 text-ifmg"></i> Calendário Acadêmico Anual</span>
+                            <span class="text-xs text-gray-500 pl-4">Feriados, provas e conselhos de classe</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Sistemas de Energia Renovável / Administração -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 hover:shadow-md transition-shadow">
+                    <h4 class="font-bold text-gray-800 text-lg flex items-center gap-2 mb-2"><i data-lucide="sun" class="text-yellow-600"></i> Sistemas de Energia Renovável</h4>
+                    <div class="mb-4 bg-yellow-50 p-3 rounded-lg text-xs text-gray-700">
+                        <p class="mb-1"><strong>Modalidade:</strong> Técnico Integrado / Concomitante</p>
+                        <p class="mb-1"><strong>Ano de Criação:</strong> Inaugurado em 2019</p>
+                        <p><strong>Foco:</strong> Sustentabilidade Energética (Solar/Eólica)</p>
+                    </div>
+                    <div class="space-y-1">
+                        <a href="#" class="doc-link flex flex-col p-2 border-l-2 border-transparent hover:bg-gray-50 rounded">
+                            <span class="text-sm font-semibold text-gray-800 flex items-center gap-1"><i data-lucide="file-text" class="w-3 h-3 text-red-500"></i> PPC Sistemas de Energia Renov.</span>
+                            <span class="text-xs text-gray-500 pl-4">Atualização 2019 / Matriz Curricular</span>
+                        </a>
+                        <a href="#" class="doc-link flex flex-col p-2 border-l-2 border-transparent hover:bg-gray-50 rounded">
+                            <span class="text-sm font-semibold text-gray-800 flex items-center gap-1"><i data-lucide="file-check" class="w-3 h-3 text-green-600"></i> Formulário de Visita Técnica</span>
+                            <span class="text-xs text-gray-500 pl-4">Documento padrão para aulas práticas</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Documentos Gerais (Assistência Estudantil) -->
+            <div class="mt-8 bg-gradient-to-r from-gray-800 to-gray-700 p-6 rounded-xl border border-gray-800 flex flex-col md:flex-row items-center justify-between text-white shadow-lg">
+                <div class="flex items-center gap-4 mb-4 md:mb-0">
+                    <div class="bg-white/20 p-3 rounded-full"><i data-lucide="bus-front" class="w-8 h-8"></i></div>
+                    <div>
+                        <h4 class="font-bold text-xl">Assistência Estudantil e Setor Pedagógico</h4>
+                        <p class="text-sm text-gray-300">Editais de Auxílio Transporte, Alimentação, Inclusão Digital e Atendimento Psicológico.</p>
+                    </div>
+                </div>
+                <a href="https://www.ifmg.edu.br/ibirite/assistencia-estudantil" target="_blank" class="bg-white text-gray-900 px-6 py-3 rounded-lg text-sm font-bold hover:bg-gray-100 transition-colors shadow flex items-center gap-2">
+                    Acessar Editais <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- ================= SUSTENTABILIDADE ================= -->
+        <section id="sustentabilidade" class="tab-content">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-green-100 p-3 rounded-full text-ifmg">
+                    <i data-lucide="leaf" class="w-8 h-8"></i>
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-800">Campus Sustentável</h2>
+                    <p class="text-gray-600">Métricas e ações de engenharia aplicadas ao meio ambiente em Ibirité.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-green-500">
+                    <p class="text-sm text-gray-500 font-semibold uppercase">Digitalização</p>
+                    <p class="text-3xl font-bold text-gray-800 mt-1">2.450</p>
+                    <p class="text-sm text-gray-600">Folhas de papel poupadas com requerimentos via SUAP.</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-yellow-500">
+                    <p class="text-sm text-gray-500 font-semibold uppercase">Painéis Solares</p>
+                    <p class="text-3xl font-bold text-gray-800 mt-1">25%</p>
+                    <p class="text-sm text-gray-600">Da energia do pavilhão de aulas gerada de forma limpa.</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-ifmg-dark">
+                    <p class="text-sm text-gray-500 font-semibold uppercase">Descarte Eletrônico</p>
+                    <p class="text-3xl font-bold text-gray-800 mt-1">3 <span class="text-lg">Pontos</span></p>
+                    <p class="text-sm text-gray-600">Coletores de pilhas e placas localizados no Lab. de Automação.</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+                <h3 class="font-bold text-xl mb-4 border-b pb-2 flex items-center gap-2"><i data-lucide="car"></i> Carona Solidária IFMG</h3>
+                <p class="text-gray-600 mb-4">Diminua a emissão de CO2 combinando caronas com outros alunos que moram na mesma região de Ibirité, Barreiro ou Contagem. Sistema de match em desenvolvimento!</p>
+                <button class="bg-ifmg hover:bg-ifmg-dark text-white px-5 py-2.5 rounded-lg transition-colors font-medium flex items-center gap-2">
+                    <i data-lucide="map-pin" class="w-5 h-5"></i> Cadastrar Minha Rota
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= MURAL DE IDEIAS ================= -->
+        <section id="ideias" class="tab-content">
+             <div class="flex items-center gap-3 mb-6">
+                <div class="bg-yellow-100 p-3 rounded-full text-yellow-600">
+                    <i data-lucide="lightbulb" class="w-8 h-8"></i>
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-800">Mural de Inovação</h2>
+                    <p class="text-gray-600">O que podemos automatizar ou melhorar no Campus Ibirité?</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Formulário -->
+                <div class="lg:col-span-1 bg-white p-6 rounded-xl shadow-sm border border-gray-200 h-fit">
+                    <h3 class="font-bold text-lg mb-4 text-gray-800">Sugerir Melhoria</h3>
+                    <form onsubmit="submitIdeia(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Título da Ideia</label>
+                            <input type="text" id="ideia-titulo" required class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-ifmg focus:border-ifmg outline-none" placeholder="Ex: App para cardápio">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
+                            <textarea id="ideia-desc" required rows="4" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-ifmg focus:border-ifmg outline-none" placeholder="Detalhe sua ideia de projeto extensionista..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-ifmg-dark hover:bg-green-900 text-white font-medium py-3 rounded-lg transition-colors flex justify-center items-center gap-2 shadow-md">
+                            <i data-lucide="send" class="w-4 h-4"></i> Publicar Ideia
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Feed -->
+                <div class="lg:col-span-2 space-y-4" id="feed-ideias">
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-bold text-lg text-gray-800">Horta Automatizada na Área Verde</h4>
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded font-bold uppercase">Eng. Automação</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Utilizar sensores de umidade de solo (Arduino/ESP32) criados nas aulas de microcontroladores para automatizar a irrigação de uma horta comunitária no campus.</p>
+                        <div class="flex items-center gap-4 text-sm text-gray-500 border-t pt-3">
+                            <button class="flex items-center gap-1 hover:text-ifmg transition-colors font-medium"><i data-lucide="thumbs-up" class="w-4 h-4"></i> 45 Apoios</button>
+                            <span class="flex items-center gap-1"><i data-lucide="user" class="w-4 h-4"></i> Turma 6º Período</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= FAQ ================= -->
+        <section id="faq" class="tab-content">
+            <div class="max-w-3xl mx-auto">
+                <div class="text-center mb-10">
+                    <span class="bg-gray-200 text-gray-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Ajuda Rápida</span>
+                    <h2 class="text-3xl font-bold text-gray-800">Perguntas Frequentes do IFMG</h2>
+                    <p class="text-gray-600 mt-3 text-lg">As dúvidas mais comuns das secretarias e coordenações respondidas de forma direta.</p>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Pergunta 1 -->
+                    <details class="group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-5 text-gray-800 hover:bg-gray-50">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="key" class="text-ifmg-light"></i>
+                                Como faço meu primeiro acesso no SUAP e Moodle?
+                            </div>
+                            <span class="transition group-open:rotate-180 text-gray-400"><i data-lucide="chevron-down"></i></span>
+                        </summary>
+                        <div class="text-gray-600 p-5 pt-0 text-sm border-t border-gray-100 bg-gray-50 leading-relaxed">
+                            O login inicial para os sistemas do IFMG (incluindo SUAP e Moodle) é o seu <strong>CPF</strong> (somente números). A senha provisória costuma ser a sua data de nascimento no formato DDMMAAAA ou a palavra "IFMG@" seguida da data. Lembre-se de alterar a senha imediatamente após o primeiro acesso!
+                        </div>
+                    </details>
+
+                    <!-- Pergunta 2 -->
+                    <details class="group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-5 text-gray-800 hover:bg-gray-50">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="file-check-2" class="text-ifmg-light"></i>
+                                Onde entrego e valido minhas Horas Complementares?
+                            </div>
+                            <span class="transition group-open:rotate-180 text-gray-400"><i data-lucide="chevron-down"></i></span>
+                        </summary>
+                        <div class="text-gray-600 p-5 pt-0 text-sm border-t border-gray-100 bg-gray-50 leading-relaxed">
+                            As atividades complementares não devem ser entregues em papel. Você deve acessar a aba <strong>"Documentos"</strong> aqui no Hub, baixar o formulário padrão do seu curso, preencher e abrir um requerimento no sistema <strong>SUAP</strong> anexando o formulário e os PDFs dos seus certificados.
+                        </div>
+                    </details>
+
+                    <!-- Pergunta 3 -->
+                    <details class="group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-5 text-gray-800 hover:bg-gray-50">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="library" class="text-ifmg-light"></i>
+                                Como renovo um livro na biblioteca (Pergamum)?
+                            </div>
+                            <span class="transition group-open:rotate-180 text-gray-400"><i data-lucide="chevron-down"></i></span>
+                        </summary>
+                        <div class="text-gray-600 p-5 pt-0 text-sm border-t border-gray-100 bg-gray-50 leading-relaxed">
+                            Para evitar multas, acesse o sistema Pergamum online usando sua matrícula. Vá em "Meu Perfil" > "Empréstimos" e clique em "Renovar". <strong>Atenção:</strong> A renovação só é permitida se o livro não estiver reservado por outro aluno e se não estiver atrasado.
+                        </div>
+                    </details>
+
+                    <!-- Pergunta 4 -->
+                    <details class="group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-5 text-gray-800 hover:bg-gray-50">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="bus" class="text-ifmg-light"></i>
+                                Como funcionam os editais de Assistência Estudantil (Auxílio Transporte/Alimentação)?
+                            </div>
+                            <span class="transition group-open:rotate-180 text-gray-400"><i data-lucide="chevron-down"></i></span>
+                        </summary>
+                        <div class="text-gray-600 p-5 pt-0 text-sm border-t border-gray-100 bg-gray-50 leading-relaxed">
+                            A Assistência Estudantil lança editais específicos no início de cada semestre letivo. O aluno deve ler o edital (disponível na nossa aba de Documentos Gerais), preencher o questionário socioeconômico no SUAP e anexar a documentação de renda familiar exigida no prazo estipulado.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="bg-gray-900 text-gray-400 py-8 text-center text-sm mt-auto border-t-4 border-ifmg-red">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-center gap-2 mb-4">
+                <div class="bg-white/10 px-2 py-1 rounded text-white font-black text-lg">
+                    <span class="">IF</span><span class="text-ifmg-red">MG</span>
+                </div>
+                <span class="text-white font-medium">Campus Ibirité</span>
+            </div>
+            <p>&copy; 2026 IFMG Hub - Protótipo para Práticas Extensionistas.</p>
+            <p class="mt-1">Desenvolvido por alunos de Engenharia de Controle e Automação para otimizar o fluxo de informação do campus.</p>
+        </div>
+    </footer>
+
+    <!-- Lógica de interatividade -->
+    <script>
+        lucide.createIcons();
+
+        function changeTab(tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => { content.classList.remove('active'); });
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('border-ifmg-light', 'text-white', 'bg-white/5');
+                btn.classList.add('border-transparent', 'text-gray-300');
+            });
+
+            document.getElementById(tabId).classList.add('active');
+
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.remove('border-transparent', 'text-gray-300');
+            activeBtn.classList.add('border-ifmg-light', 'text-white', 'bg-white/5');
+        }
+
+        function submitIdeia(e) {
+            e.preventDefault();
+            const titulo = document.getElementById('ideia-titulo').value;
+            const desc = document.getElementById('ideia-desc').value;
+            
+            const novaIdeiaHTML = `
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-ifmg/30 animation-fade-in relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-ifmg-light"></div>
+                    <div class="flex justify-between items-start mb-2">
+                        <h4 class="font-bold text-lg text-gray-800">${titulo}</h4>
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded font-bold uppercase">Nova Ideia</span>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">${desc}</p>
+                    <div class="flex items-center gap-4 text-sm text-gray-500 border-t pt-3">
+                        <button class="flex items-center gap-1 hover:text-ifmg transition-colors font-medium"><i data-lucide="thumbs-up" class="w-4 h-4"></i> 1 Apoio</button>
+                        <span class="flex items-center gap-1"><i data-lucide="user" class="w-4 h-4"></i> Você</span>
+                    </div>
+                </div>
+            `;
+            
+            const feed = document.getElementById('feed-ideias');
+            feed.insertAdjacentHTML('afterbegin', novaIdeiaHTML);
+            lucide.createIcons();
+            e.target.reset();
+            alert("Sua ideia foi submetida com sucesso!");
+        }
+    </script>
+</body>
+</html>
