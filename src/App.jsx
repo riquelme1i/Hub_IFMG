@@ -1,0 +1,489 @@
+import React, { useState} from 'react';
+import { Home, BookOpen, Wrench, LayoutDashboard, Send, ChevronRight, Zap, Users, ShieldCheck, ArrowLeft, CheckCircle2, Recycle, Cpu, MapPin, Calendar } from 'lucide-react';
+
+export default function App() {
+  const [activeTab, setActiveTab] = useState('home');
+  const [selectedTutorial, setSelectedTutorial] = useState(null);
+
+  // Função para renderizar o conteúdo com base na aba ativa
+  const renderContent = () => {
+    // Se um tutorial estiver selecionado, mostra a tela de detalhes sobrepondo as abas
+    if (selectedTutorial) {
+      return <TutorialDetailView tutorial={selectedTutorial} onBack={() => setSelectedTutorial(null)} />;
+    }
+
+    switch (activeTab) {
+      case 'home':
+        return <HomeView setActiveTab={setActiveTab} />;
+      case 'techtutor':
+        return <TechTutorView onSelectTutorial={setSelectedTutorial} />;
+      case 'sos':
+        return <SosView />;
+      case 'elixo':
+        return <ELixoView />;
+      case 'canvas':
+        return <CanvasView />;
+      default:
+        return <HomeView setActiveTab={setActiveTab} />;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 font-sans text-gray-800 pb-20 selection:bg-green-200">
+      {/* Cabeçalho Fixo */}
+      <header className="bg-green-700 text-white p-4 sticky top-0 z-20 shadow-md">
+        <div className="max-w-md mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Zap className="w-6 h-6 text-yellow-300 fill-yellow-300" />
+            <h1 className="text-xl font-bold tracking-tight">IFMG Cidadão</h1>
+          </div>
+          <span className="text-[10px] font-bold uppercase tracking-wider bg-green-800 px-2 py-1 rounded-full border border-green-600">
+            Automação
+          </span>
+        </div>
+      </header>
+
+      {/* Área de Conteúdo Principal */}
+      <main className="max-w-md mx-auto p-4 relative">
+        {renderContent()}
+      </main>
+
+      {/* Barra de Navegação Inferior (escondida se estiver vendo um tutorial) */}
+      {!selectedTutorial && (
+        <nav className="fixed bottom-0 w-full bg-white border-t border-gray-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-20">
+          <div className="max-w-md mx-auto flex justify-between px-2 py-2">
+            <NavItem icon={<Home className="w-5 h-5" />} label="Início" isActive={activeTab === 'home'} onClick={() => setActiveTab('home')} />
+            <NavItem icon={<BookOpen className="w-5 h-5" />} label="Aprender" isActive={activeTab === 'techtutor'} onClick={() => setActiveTab('techtutor')} />
+            <NavItem icon={<Wrench className="w-5 h-5" />} label="Pedir Ajuda" isActive={activeTab === 'sos'} onClick={() => setActiveTab('sos')} />
+            <NavItem icon={<Recycle className="w-5 h-5" />} label="E-Lixo" isActive={activeTab === 'elixo'} onClick={() => setActiveTab('elixo')} />
+            <NavItem icon={<LayoutDashboard className="w-5 h-5" />} label="Projeto" isActive={activeTab === 'canvas'} onClick={() => setActiveTab('canvas')} />
+          </div>
+        </nav>
+      )}
+    </div>
+  );
+}
+
+// --- COMPONENTES AUXILIARES ---
+
+const NavItem = ({ icon, label, isActive, onClick }) => {
+  return (
+    <button 
+      onClick={onClick}
+      className={`flex flex-col items-center justify-center space-y-1 w-16 px-1 py-2 transition-all duration-200 rounded-xl ${isActive ? 'text-green-700 bg-green-50' : 'text-gray-400 hover:text-green-500 hover:bg-gray-50'}`}
+    >
+      <div className={`${isActive ? 'scale-110 mb-0.5' : 'scale-100'} transition-transform duration-200`}>
+        {icon}
+      </div>
+      <span className={`text-[10px] ${isActive ? 'font-bold' : 'font-medium'}`}>{label}</span>
+    </button>
+  );
+};
+
+// --- TELAS DO APLICATIVO ---
+
+const HomeView = ({ setActiveTab }) => (
+  <div className="space-y-6 animate-in fade-in duration-500">
+    {/* Hero Section */}
+    <div className="bg-gradient-to-br from-green-700 to-green-900 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
+      <div className="absolute top-0 right-0 -mr-8 -mt-8 opacity-10">
+        <Cpu className="w-48 h-48" />
+      </div>
+      <div className="relative z-10">
+        <h2 className="text-3xl font-extrabold mb-2 leading-tight">Tecnologia para a Comunidade.</h2>
+        <p className="text-green-100 text-sm mb-6 leading-relaxed">
+          Conectamos os laboratórios do IFMG aos desafios reais de Ibirité através da Automação, Robótica e Impressão 3D.
+        </p>
+        <div className="grid grid-cols-2 gap-3">
+          <button onClick={() => setActiveTab('sos')} className="bg-white text-green-800 px-3 py-2.5 rounded-xl text-sm font-bold shadow-sm hover:bg-gray-50 transition active:scale-95 flex items-center justify-center gap-2">
+            <Wrench className="w-4 h-4" /> Solicitar Ajuda
+          </button>
+          <button onClick={() => setActiveTab('techtutor')} className="bg-green-600 border border-green-500 text-white px-3 py-2.5 rounded-xl text-sm font-bold shadow-sm hover:bg-green-500 transition active:scale-95 flex items-center justify-center gap-2">
+            <BookOpen className="w-4 h-4" /> Ver Tutoriais
+          </button>
+        </div>
+      </div>
+    </div>
+
+    {/* Acesso Rápido Nova Ideia: E-Lixo */}
+    <div 
+      onClick={() => setActiveTab('elixo')}
+      className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex items-center justify-between cursor-pointer hover:bg-emerald-100 transition shadow-sm active:scale-95"
+    >
+      <div className="flex items-center gap-4">
+        <div className="bg-emerald-200 p-3 rounded-full text-emerald-700">
+          <Recycle className="w-6 h-6" />
+        </div>
+        <div>
+          <h4 className="font-bold text-emerald-900">Descarte Consciente</h4>
+          <p className="text-xs text-emerald-700 mt-0.5">Doe seu lixo eletrônico para nossos projetos.</p>
+        </div>
+      </div>
+      <ChevronRight className="text-emerald-500" />
+    </div>
+
+    {/* Estatísticas */}
+    <div>
+      <h3 className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+        <Users className="w-5 h-5 text-green-600" /> Nosso Impacto em Ibirité
+      </h3>
+      <div className="grid grid-cols-3 gap-2">
+        <div className="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center">
+          <span className="text-2xl font-extrabold text-green-600">24</span>
+          <span className="text-[10px] text-gray-500 mt-1 uppercase font-bold">Projetos Feitos</span>
+        </div>
+        <div className="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center">
+          <span className="text-2xl font-extrabold text-blue-600">80</span>
+          <span className="text-[10px] text-gray-500 mt-1 uppercase font-bold">Alunos Ativos</span>
+        </div>
+        <div className="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center">
+          <span className="text-2xl font-extrabold text-orange-500">150</span>
+          <span className="text-[10px] text-gray-500 mt-1 uppercase font-bold">Kg de E-Lixo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+// Dados dos tutoriais simulados
+const tutoriaisData = [
+  {
+    id: 1,
+    title: "Sensor de Presença (Economia de Energia)",
+    level: "Iniciante",
+    cost: "R$ 35,00",
+    desc: "Aprenda a montar um sensor simples para apagar as luzes automaticamente.",
+    imgColor: "bg-yellow-100 text-yellow-600",
+    icon: <Zap className="w-8 h-8" />,
+    materials: ["1x Arduino Uno", "1x Sensor PIR Módulo", "1x Relé 5V", "Cabos Jumpers"],
+    steps: [
+      "Conecte o VCC do sensor PIR ao 5V do Arduino.",
+      "Ligue o pino de sinal do sensor ao pino digital 2 do Arduino.",
+      "Conecte o módulo Relé ao pino digital 3 (ele controlará a lâmpada).",
+      "Carregue o código C++ fornecido na plataforma.",
+      "Atenção: Peça ajuda a um eletricista para ligar o relé na rede 110V/220V."
+    ]
+  },
+  {
+    id: 2,
+    title: "Irrigação Automática com Garrafa PET",
+    level: "Intermediário",
+    cost: "R$ 60,00",
+    desc: "Sistema com sensor de humidade do solo ideal para hortas comunitárias.",
+    imgColor: "bg-blue-100 text-blue-600",
+    icon: <Wrench className="w-8 h-8" />,
+    materials: ["1x ESP32 ou Arduino", "1x Sensor de Umidade do Solo", "1x Mini Bomba d'água 5V", "Mangueira de aquário", "Garrafa PET"],
+    steps: [
+      "Fure a tampa da garrafa PET para passar a mangueira.",
+      "Ligue o sensor de umidade na porta analógica (A0).",
+      "Programe o microcontrolador para ler a umidade: se for menor que 30%, ligar a bomba.",
+      "Use um módulo relé ou transistor Tip120 para acionar a mini bomba."
+    ]
+  },
+  {
+    id: 3,
+    title: "Lixeira Inteligente Automática",
+    level: "Iniciante",
+    cost: "R$ 45,00",
+    desc: "Mais higiene: a tampa da lixeira abre sozinha quando você aproxima a mão.",
+    imgColor: "bg-purple-100 text-purple-600",
+    icon: <Recycle className="w-8 h-8" />,
+    materials: ["1x Arduino Nano", "1x Sensor Ultrassônico HC-SR04", "1x Servomotor SG90", "Lixeira com tampa leve"],
+    steps: [
+      "Cole o sensor ultrassônico na frente da lixeira.",
+      "Fixe o servomotor na dobradiça da tampa.",
+      "Código: Se a distância medida for menor que 15cm, gire o servo 90 graus.",
+      "Aguarde 3 segundos e retorne o servo a 0 graus para fechar."
+    ]
+  }
+];
+
+const TechTutorView = ({ onSelectTutorial }) => (
+  <div className="space-y-4 animate-in fade-in duration-500">
+    <div className="mb-6">
+      <h2 className="text-2xl font-bold text-gray-800">TechTutor</h2>
+      <p className="text-sm text-gray-500">Aprenda a criar soluções em casa com os tutoriais passo a passo do IFMG.</p>
+    </div>
+
+    <div className="space-y-4">
+      {tutoriaisData.map(tutorial => (
+        <TutorialCard 
+          key={tutorial.id}
+          data={tutorial}
+          onClick={() => onSelectTutorial(tutorial)}
+        />
+      ))}
+    </div>
+  </div>
+);
+
+const TutorialCard = ({ data, onClick }) => (
+  <div 
+    onClick={onClick}
+    className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col cursor-pointer hover:shadow-md transition active:scale-[0.98]"
+  >
+    <div className={`h-24 ${data.imgColor} flex items-center justify-center relative`}>
+      {data.icon}
+      <div className="absolute bottom-2 right-2 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold text-gray-800 shadow-sm">
+        Custo Médio: {data.cost}
+      </div>
+    </div>
+    <div className="p-4">
+      <div className="flex justify-between items-start mb-2">
+        <h3 className="font-bold text-gray-800 text-sm leading-tight pr-2">{data.title}</h3>
+        <span className="bg-gray-100 text-gray-600 text-[10px] px-2 py-1 rounded font-bold uppercase tracking-wider whitespace-nowrap">{data.level}</span>
+      </div>
+      <p className="text-xs text-gray-500 line-clamp-2 mb-3">{data.desc}</p>
+      <div className="text-green-600 text-xs font-bold flex items-center gap-1">
+        Acessar Aula <ChevronRight className="w-3 h-3" />
+      </div>
+    </div>
+  </div>
+);
+
+// Tela de Detalhes do Tutorial
+const TutorialDetailView = ({ tutorial, onBack }) => (
+  <div className="bg-white min-h-screen -m-4 p-4 animate-in slide-in-from-right-4 duration-300 z-50">
+    <button onClick={onBack} className="flex items-center gap-2 text-gray-600 hover:text-green-700 font-bold text-sm mb-6 bg-gray-100 py-2 px-4 rounded-full w-max">
+      <ArrowLeft className="w-4 h-4" /> Voltar
+    </button>
+    
+    <div className={`h-32 rounded-2xl ${tutorial.imgColor} flex items-center justify-center mb-6`}>
+      {tutorial.icon}
+    </div>
+
+    <h2 className="text-2xl font-extrabold text-gray-800 mb-2">{tutorial.title}</h2>
+    <p className="text-gray-600 text-sm mb-6">{tutorial.desc}</p>
+
+    <div className="bg-green-50 border border-green-100 rounded-xl p-4 mb-6">
+      <h3 className="font-bold text-green-800 mb-3 flex items-center gap-2">
+        <Wrench className="w-4 h-4" /> Lista de Materiais
+      </h3>
+      <ul className="space-y-2">
+        {tutorial.materials.map((mat, i) => (
+          <li key={i} className="flex items-center gap-2 text-sm text-gray-700">
+            <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div> {mat}
+          </li>
+        ))}
+      </ul>
+      <div className="mt-4 text-xs font-bold text-green-700 bg-green-200 inline-block px-2 py-1 rounded">
+        Custo Estimado: {tutorial.cost}
+      </div>
+    </div>
+
+    <div>
+      <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
+        <BookOpen className="w-4 h-4 text-blue-500" /> Passo a Passo
+      </h3>
+      <div className="space-y-4">
+        {tutorial.steps.map((step, i) => (
+          <div key={i} className="flex gap-3">
+            <div className="bg-gray-800 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs shrink-0">
+              {i + 1}
+            </div>
+            <p className="text-sm text-gray-700 pt-0.5">{step}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <button className="w-full mt-8 bg-gray-900 text-white font-bold py-3.5 rounded-xl hover:bg-gray-800 transition">
+      Baixar Código Fonte (.INO)
+    </button>
+  </div>
+);
+
+const SosView = () => {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    // Simula envio para o servidor
+    setTimeout(() => {
+      setLoading(false);
+      setIsSubmitted(true);
+    }, 1500);
+  };
+
+  if (isSubmitted) {
+    return (
+      <div className="bg-white p-8 rounded-2xl shadow-sm border border-green-100 text-center animate-in zoom-in duration-300">
+        <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+          <CheckCircle2 className="w-8 h-8" />
+        </div>
+        <h2 className="text-xl font-bold text-gray-800 mb-2">Pedido Enviado!</h2>
+        <p className="text-sm text-gray-600 mb-6">
+          Sua solicitação entrou na fila de triagem. A equipe do IFMG entrará em contato em breve via WhatsApp.
+        </p>
+        <button 
+          onClick={() => setIsSubmitted(false)}
+          className="bg-green-50 text-green-700 font-bold px-6 py-2 rounded-lg hover:bg-green-100 transition"
+        >
+          Enviar outro pedido
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4 animate-in fade-in duration-500">
+      <div className="mb-4">
+        <h2 className="text-2xl font-bold text-gray-800">SOS Comunidade</h2>
+        <p className="text-sm text-gray-500">Solicite projetos de automação, reparos ou impressões 3D para sua necessidade.</p>
+      </div>
+
+      <form className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4" onSubmit={handleSubmit}>
+        <div>
+          <label className="block text-xs font-bold text-gray-700 mb-1">Seu Nome / Instituição</label>
+          <input required type="text" className="w-full border border-gray-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition bg-gray-50 focus:bg-white" placeholder="Ex: Escola Municipal / Dona Maria" />
+        </div>
+
+        <div>
+          <label className="block text-xs font-bold text-gray-700 mb-1">WhatsApp de Contato</label>
+          <input required type="tel" className="w-full border border-gray-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition bg-gray-50 focus:bg-white" placeholder="(31) 90000-0000" />
+        </div>
+
+        <div>
+          <label className="block text-xs font-bold text-gray-700 mb-1">Categoria</label>
+          <select className="w-full border border-gray-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-green-500 outline-none bg-gray-50 focus:bg-white">
+            <option>Impressão 3D de peça quebrada</option>
+            <option>Automação residencial/comercial</option>
+            <option>Tecnologia Assistiva (Acessibilidade)</option>
+            <option>Reparo em eletrônicos/robótica</option>
+            <option>Outros</option>
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-xs font-bold text-gray-700 mb-1">Descreva o Problema</label>
+          <textarea required rows="4" className="w-full border border-gray-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-green-500 outline-none resize-none bg-gray-50 focus:bg-white" placeholder="Explique detalhadamente o que precisa..."></textarea>
+        </div>
+
+        <button 
+          disabled={loading}
+          type="submit" 
+          className="w-full bg-green-700 text-white font-bold rounded-xl p-3.5 flex items-center justify-center gap-2 hover:bg-green-800 transition active:scale-95 shadow-md disabled:opacity-70 disabled:scale-100"
+        >
+          {loading ? (
+            <span className="animate-pulse">Enviando...</span>
+          ) : (
+            <><Send className="w-4 h-4" /> Enviar Solicitação ao IFMG</>
+          )}
+        </button>
+        <p className="text-[10px] text-center text-gray-400 mt-2 flex items-center justify-center gap-1">
+          <ShieldCheck className="w-3 h-3" /> Todos os pedidos passam por aprovação de viabilidade.
+        </p>
+      </form>
+    </div>
+  );
+};
+
+const ELixoView = () => (
+  <div className="space-y-4 animate-in fade-in duration-500">
+    <div className="bg-emerald-700 rounded-2xl p-6 text-white text-center shadow-lg mb-6">
+      <Recycle className="w-12 h-12 mx-auto mb-3 text-emerald-300" />
+      <h2 className="text-2xl font-bold mb-2">Ponto E-Lixo IFMG</h2>
+      <p className="text-emerald-100 text-sm">
+        Doe computadores velhos e eletrônicos. Nós reaproveitamos os componentes para construir novos projetos e descartamos o resto na forma da lei.
+      </p>
+    </div>
+
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+      <h3 className="font-bold text-gray-800 mb-3 border-b pb-2">O que aceitamos?</h3>
+      <ul className="grid grid-cols-2 gap-3 text-sm text-gray-600 mb-4">
+        <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Computadores</li>
+        <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Impressoras</li>
+        <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Cabos e Fios</li>
+        <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Celulares velhos</li>
+        <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Brinquedos a pilha</li>
+        <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Fontes/Carregadores</li>
+      </ul>
+      <p className="text-xs text-red-500 font-medium mb-4">* Não aceitamos lâmpadas fluorescentes nem pilhas vazadas.</p>
+
+      <div className="space-y-3">
+        <div className="bg-gray-50 p-3 rounded-lg flex items-center gap-3">
+          <MapPin className="w-5 h-5 text-gray-400" />
+          <div>
+            <span className="block text-xs font-bold text-gray-700">Onde entregar</span>
+            <span className="block text-xs text-gray-500">Portaria principal do IFMG Ibirité.</span>
+          </div>
+        </div>
+        <div className="bg-gray-50 p-3 rounded-lg flex items-center gap-3">
+          <Calendar className="w-5 h-5 text-gray-400" />
+          <div>
+            <span className="block text-xs font-bold text-gray-700">Horários</span>
+            <span className="block text-xs text-gray-500">Segunda a Sexta, das 08h às 18h.</span>
+          </div>
+        </div>
+      </div>
+      
+      <button className="w-full mt-4 bg-emerald-100 text-emerald-800 font-bold py-3 rounded-xl hover:bg-emerald-200 transition text-sm border border-emerald-200">
+        Gerar Protocolo de Doação
+      </button>
+    </div>
+  </div>
+);
+
+const CanvasView = () => (
+  <div className="space-y-4 animate-in fade-in duration-500">
+    <div className="mb-4">
+      <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+        <LayoutDashboard className="w-6 h-6 text-blue-600" /> Canvas Extensão
+      </h2>
+      <p className="text-sm text-gray-500">Estrutura oficial do projeto para avaliação acadêmica.</p>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pb-8">
+      <CanvasBlock title="Parcerias Chave" icon="🤝" color="border-blue-200 bg-blue-50 text-blue-900">
+        <ul className="list-disc pl-4 text-xs space-y-1 mt-2">
+          <li>Professores orientadores.</li>
+          <li>Associações de bairro de Ibirité.</li>
+          <li>Comércio local e escolas.</li>
+        </ul>
+      </CanvasBlock>
+
+      <CanvasBlock title="Proposta de Valor" icon="💎" color="border-green-200 bg-green-50 text-green-900">
+        <ul className="list-disc pl-4 text-xs space-y-1 mt-2">
+          <li><strong>Comunidade:</strong> Acesso a soluções IoT, E-lixo e Impressão 3D.</li>
+          <li><strong>Alunos IFMG:</strong> Plataforma real para aplicar conhecimentos.</li>
+        </ul>
+      </CanvasBlock>
+
+      <CanvasBlock title="Atividades Principais" icon="⚙️" color="border-purple-200 bg-purple-50 text-purple-900">
+        <ul className="list-disc pl-4 text-xs space-y-1 mt-2">
+          <li>Desenvolvimento da plataforma Web.</li>
+          <li>Gravação de TechTutoriais.</li>
+          <li>Triagem de chamados SOS e execução.</li>
+          <li>Reciclagem de E-lixo.</li>
+        </ul>
+      </CanvasBlock>
+
+      <CanvasBlock title="Público Alvo" icon="🎯" color="border-orange-200 bg-orange-50 text-orange-900">
+        <ul className="list-disc pl-4 text-xs space-y-1 mt-2">
+          <li>Moradores (necessidades domésticas).</li>
+          <li>Pessoas a precisar de acessibilidade.</li>
+          <li>Microempresas sem verba para automação.</li>
+        </ul>
+      </CanvasBlock>
+      
+      <CanvasBlock title="Estrutura de Custos e Impacto" icon="⚖️" color="border-gray-200 bg-white text-gray-800">
+        <div className="text-xs space-y-2 mt-2">
+          <p><strong>Custos:</strong> Componentes baratos (ESP32), Filamento 3D, Hospedagem do App.</p>
+          <div className="h-px bg-gray-200 w-full my-1"></div>
+          <p><strong>Impacto:</strong> Modernização local, logística reversa de eletrônicos, validação acadêmica.</p>
+        </div>
+      </CanvasBlock>
+    </div>
+  </div>
+);
+
+const CanvasBlock = ({ title, icon, color, children }) => (
+  <div className={`p-4 rounded-xl border shadow-sm ${color}`}>
+    <h4 className="font-bold text-sm flex items-center gap-1">
+      <span>{icon}</span> {title}
+    </h4>
+    {children}
+  </div>
+);
