@@ -5,9 +5,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('home');
   const [selectedTutorial, setSelectedTutorial] = useState(null);
 
-  // Função para renderizar o conteúdo com base na aba ativa
   const renderContent = () => {
-    // Se uma aula estiver selecionada, mostra a tela de detalhes
     if (selectedTutorial) {
       return <TutorialDetailView tutorial={selectedTutorial} onBack={() => setSelectedTutorial(null)} />;
     }
@@ -26,7 +24,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800 pb-20 selection:bg-green-200">
-      {/* Cabeçalho Fixo */}
       <header className="bg-green-700 text-white p-4 sticky top-0 z-20 shadow-md">
         <div className="max-w-md mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -39,12 +36,10 @@ export default function App() {
         </div>
       </header>
 
-      {/* Área de Conteúdo Principal */}
       <main className="max-w-md mx-auto p-4 relative">
         {renderContent()}
       </main>
 
-      {/* Barra de Navegação Inferior */}
       {!selectedTutorial && (
         <nav className="fixed bottom-0 w-full bg-white border-t border-slate-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-20">
           <div className="max-w-md mx-auto flex justify-around px-2 py-2">
@@ -57,8 +52,6 @@ export default function App() {
     </div>
   );
 }
-
-// --- COMPONENTES AUXILIARES ---
 
 const NavItem = ({ icon, label, isActive, onClick }) => {
   return (
@@ -74,11 +67,8 @@ const NavItem = ({ icon, label, isActive, onClick }) => {
   );
 };
 
-// --- TELAS DO APLICATIVO ---
-
 const HomeView = ({ setActiveTab }) => (
   <div className="space-y-6 animate-in fade-in duration-500">
-    {/* Hero Section Reformulado para Educação */}
     <div className="bg-gradient-to-br from-green-700 to-green-900 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
       <div className="absolute top-0 right-0 -mr-8 -mt-8 opacity-10">
         <Cpu className="w-48 h-48" />
@@ -96,7 +86,7 @@ const HomeView = ({ setActiveTab }) => (
       </div>
     </div>
 
-    {/* Apresentação do Projeto (Vídeo 1 do Documento) */}
+    {/* Apresentação do Projeto COM O VÍDEO REAL */}
     <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
       <div className="flex justify-between items-center mb-3">
         <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
@@ -106,15 +96,18 @@ const HomeView = ({ setActiveTab }) => (
       </div>
       <p className="text-xs text-slate-500 mb-3">Conheça nossa equipe, objetivos e como utilizar este aplicativo em conjunto com nosso canal.</p>
       
-      {/* Placeholder do YouTube */}
-      <div className="aspect-video bg-slate-100 rounded-xl overflow-hidden relative border border-slate-200 flex items-center justify-center group cursor-pointer">
-        <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Thumbnail" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition" />
-        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition"></div>
-        <Youtube className="w-16 h-16 text-white drop-shadow-lg relative z-10 group-hover:scale-110 transition duration-300" />
+      <div className="aspect-video bg-slate-100 rounded-xl overflow-hidden relative border border-slate-200 shadow-sm">
+         {/* Reprodutor Embutido do YouTube */}
+         <iframe 
+          src="https://www.youtube.com/embed/NdrGhXoS1uc?rel=0"
+          title="Vídeo de Introdução"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowFullScreen
+          className="absolute inset-0 w-full h-full border-0"
+        ></iframe>
       </div>
     </div>
 
-    {/* Canal e Exclusividade */}
     <div className="bg-slate-800 rounded-2xl p-5 text-white shadow-sm flex items-center justify-between">
       <div>
         <h4 className="font-bold text-lg mb-1 flex items-center gap-2">
@@ -129,7 +122,6 @@ const HomeView = ({ setActiveTab }) => (
       </div>
     </div>
 
-    {/* Estatísticas Educacionais */}
     <div>
       <h3 className="text-sm font-bold text-slate-500 mb-3 uppercase tracking-wider ml-1">Estatísticas da Comunidade</h3>
       <div className="grid grid-cols-2 gap-3">
@@ -146,17 +138,19 @@ const HomeView = ({ setActiveTab }) => (
   </div>
 );
 
-// Dados dos tutoriais baseados no esboço do Word
+// DADOS DOS TUTORIAIS (AGORA COM O SEU VÍDEO)
 const tutoriaisData = [
   {
     id: 1,
-    videoId: "video-2",
-    title: "Grandezas Elétricas: A Analogia da Água",
-    module: "Vídeo 2",
-    duration: "5 min",
-    desc: "Apresentamos os três pilares que fazem qualquer aparelho funcionar: Tensão, Corrente e Resistência. E acendemos o seu primeiro LED!",
+    videoId: "NdrGhXoS1uc", // <-- ID DO SEU VÍDEO AQUI
+    title: "Seu Vídeo de Teste",
+    module: "Módulo 1",
+    duration: "Assistir",
+    desc: "Apresentamos os três pilares que fazem qualquer aparelho funcionar: Tensão, Corrente e Resistência.",
     imgColor: "bg-blue-100 text-blue-600",
     icon: <Zap className="w-8 h-8" />,
+    // A linha abaixo puxa a imagem de capa (thumbnail) oficial direto do YouTube usando o ID
+    thumbnail: "https://img.youtube.com/vi/NdrGhXoS1uc/hqdefault.jpg", 
     materials: ["Bateria 9V", "Resistor de 1kΩ", "LED", "Protoboard", "Fios"],
     teoria: [
       { titulo: "A Pressão (Tensão / V)", texto: "Imagine uma caixa d'água no alto. Quanto mais alta, mais força a água tem para descer. É o 'empurrão'." },
@@ -166,18 +160,19 @@ const tutoriaisData = [
     exclusiveContent: {
       type: "diagrama",
       title: "Diagrama do Circuito (LED Seguríssimo)",
-      text: "No App você tem acesso ao esquema elétrico exato. Se ligar o LED direto na bateria de 9V sem o Resistor, a 'pressão' estoura o componente. O Resistor de 1kΩ atua como o registro da nossa caixa d'água."
+      text: "No App você tem acesso ao esquema elétrico exato. Se ligar o LED direto na bateria de 9V sem o Resistor, a 'pressão' estoura o componente."
     }
   },
   {
     id: 2,
-    videoId: "video-3",
+    videoId: "video-falso",
     title: "Leis de Ohm, Multímetro e Segurança",
-    module: "Vídeo 3",
-    duration: "8 min",
+    module: "Módulo 2",
+    duration: "8:45",
     desc: "Aprenda a fórmula mágica V = R x I. Veja como o brilho muda ao trocar o resistor e descubra os perigos de um Curto-Circuito.",
     imgColor: "bg-red-100 text-red-600",
     icon: <AlertTriangle className="w-8 h-8" />,
+    thumbnail: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     materials: ["Bateria 9V", "Resistores (220Ω, 1kΩ, 10kΩ)", "LED", "Multímetro"],
     teoria: [
       { titulo: "O Triângulo Mágico", texto: "V = R * I. Se a tensão (Bateria) é a mesma, e você aumenta a Resistência, a Corrente que passa pelo LED diminui (brilha menos)." },
@@ -186,8 +181,8 @@ const tutoriaisData = [
     exclusiveContent: {
       type: "codigo",
       title: "Guia de Segurança (Apenas App)",
-      text: "Regra 1: Energize por último. Regra 2: Cuidado com calor (se esquentou, há curto). Regra 3: Fios embolados causam curtos acidentais.",
-      code: "// FÓRMULA PARA CALCULAR SEU RESISTOR:\n// R = (V_bateria - V_led) / Corrente_led\n\nfloat V_bat = 9.0;  // Volts da Bateria\nfloat V_led = 2.0;  // Volts que o LED consome\nfloat I_led = 0.02; // 20mA (Corrente ideal)\n\nfloat ResistorIdeal = (V_bat - V_led) / I_led;\n// Resultado: 350 Ohms (Mínimo seguro)"
+      text: "Regra 1: Energize por último. Regra 2: Cuidado com calor (se esquentou, há curto).",
+      code: "// FÓRMULA PARA CALCULAR SEU RESISTOR:\n// R = (V_bateria - V_led) / Corrente_led\n\nfloat V_bat = 9.0;\nfloat V_led = 2.0;\nfloat I_led = 0.02;\n\nfloat ResistorIdeal = (V_bat - V_led) / I_led;"
     }
   }
 ];
@@ -199,40 +194,58 @@ const TrilhaView = ({ onSelectTutorial }) => (
       <p className="text-sm text-slate-500">Siga a ordem cronológica para construir sua base em eletrônica.</p>
     </div>
 
-    <div className="relative border-l-2 border-slate-200 ml-4 space-y-6">
+    <div className="relative border-l-2 border-slate-200 ml-4 space-y-8">
       {tutoriaisData.map((tutorial, index) => (
         <div key={tutorial.id} className="relative pl-6">
-          {/* Timeline Dot */}
-          <div className="absolute -left-[9px] top-4 w-4 h-4 rounded-full bg-green-500 ring-4 ring-slate-50"></div>
+          <div className="absolute -left-[9px] top-6 w-4 h-4 rounded-full bg-green-500 ring-4 ring-slate-50"></div>
           
           <div 
             onClick={() => onSelectTutorial(tutorial)}
-            className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden cursor-pointer hover:border-green-400 hover:shadow-md transition active:scale-[0.98]"
+            className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden cursor-pointer hover:border-green-500 hover:shadow-md transition active:scale-[0.98] group flex flex-col"
           >
-            <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-              <span className="text-xs font-bold text-green-700 bg-green-100 px-2 py-1 rounded">{tutorial.module}</span>
-              <span className="text-xs text-slate-400 font-medium flex items-center gap-1"><PlayCircle className="w-3 h-3"/> {tutorial.duration}</span>
-            </div>
-            <div className="p-4 flex gap-4 items-center">
-              <div className={`w-12 h-12 rounded-full ${tutorial.imgColor} flex items-center justify-center shrink-0`}>
-                {tutorial.icon}
+            <div className="aspect-video bg-slate-100 relative flex items-center justify-center overflow-hidden border-b border-slate-100">
+              <img 
+                src={tutorial.thumbnail} 
+                alt={tutorial.title} 
+                className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition duration-500" 
+              />
+              <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition duration-300"></div>
+              
+              <Youtube className="w-12 h-12 text-white/90 drop-shadow-md relative z-10 group-hover:scale-110 transition duration-300" />
+              
+              <div className="absolute bottom-2 right-2 bg-black/80 text-white text-[10px] font-bold px-2 py-1 rounded flex items-center gap-1 z-10">
+                {tutorial.duration}
               </div>
-              <div>
-                <h3 className="font-bold text-slate-800 text-sm leading-tight mb-1">{tutorial.title}</h3>
-                <p className="text-xs text-slate-500 line-clamp-2">{tutorial.desc}</p>
-              </div>
             </div>
-            <div className="px-4 py-3 bg-slate-50 text-xs font-bold text-green-600 flex justify-between items-center group">
-              Acessar Módulo e Material Extra <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition" />
+
+            <div className="p-4">
+              <div className="flex justify-between items-start mb-2">
+                <span className="text-[10px] font-bold text-green-700 bg-green-100 px-2 py-1 rounded uppercase tracking-wider">
+                  {tutorial.module}
+                </span>
+              </div>
+              
+              <h3 className="font-bold text-slate-800 text-base leading-tight mb-2 group-hover:text-green-700 transition-colors">
+                {tutorial.title}
+              </h3>
+              
+              <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                {tutorial.desc}
+              </p>
+            </div>
+
+            <div className="px-4 py-3 bg-slate-50 text-xs font-bold text-green-600 flex justify-between items-center border-t border-slate-100 mt-auto">
+              Acessar Módulo e Material Extra 
+              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition" />
             </div>
           </div>
         </div>
       ))}
       
-      {/* Indicador de próximos conteúdos */}
-      <div className="relative pl-6 pt-4 opacity-50">
-         <div className="absolute -left-[9px] top-8 w-4 h-4 rounded-full bg-slate-300 ring-4 ring-slate-50"></div>
-         <div className="border border-dashed border-slate-300 rounded-xl p-4 text-center">
+      <div className="relative pl-6 pt-2 opacity-50">
+         <div className="absolute -left-[9px] top-6 w-4 h-4 rounded-full bg-slate-300 ring-4 ring-slate-50"></div>
+         <div className="border-2 border-dashed border-slate-300 rounded-xl p-6 flex flex-col items-center justify-center text-center bg-slate-50/50">
+            <Cpu className="w-8 h-8 text-slate-400 mb-2" />
             <span className="text-sm font-bold text-slate-500">Módulos de Arduino</span>
             <p className="text-xs text-slate-400 mt-1">Programação e códigos (Em breve)</p>
          </div>
@@ -241,11 +254,9 @@ const TrilhaView = ({ onSelectTutorial }) => (
   </div>
 );
 
-// Tela de Detalhes da Aula (Back-end Lógico de Exibição)
 const TutorialDetailView = ({ tutorial, onBack }) => (
   <div className="bg-white min-h-screen -m-4 p-4 animate-in slide-in-from-right-4 duration-300 z-50 pb-24">
     
-    {/* Navegação Topo */}
     <div className="flex justify-between items-center mb-6 sticky top-0 bg-white/90 backdrop-blur py-2 z-10 border-b border-slate-100">
       <button onClick={onBack} className="flex items-center gap-1 text-slate-600 hover:text-green-700 font-bold text-sm bg-slate-100 py-1.5 px-3 rounded-full">
         <ArrowLeft className="w-4 h-4" /> Voltar
@@ -253,24 +264,31 @@ const TutorialDetailView = ({ tutorial, onBack }) => (
       <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{tutorial.module}</span>
     </div>
 
-    {/* Header do Módulo */}
     <div className="mb-6">
       <h2 className="text-2xl font-extrabold text-slate-800 mb-2 leading-tight">{tutorial.title}</h2>
       <p className="text-slate-600 text-sm">{tutorial.desc}</p>
     </div>
 
-    {/* Vídeo do YouTube Embedded */}
+    {/* AQUI ESTÁ O PLAYER REAL DE VÍDEO DENTRO DA AULA */}
     <div className="mb-8">
-      <div className="aspect-video bg-slate-900 rounded-xl overflow-hidden relative shadow-md flex items-center justify-center border-2 border-slate-800">
-        <Youtube className="w-12 h-12 text-slate-700 absolute" />
-        <span className="absolute bottom-3 text-xs text-slate-500 font-medium bg-black/50 px-3 py-1 rounded-full backdrop-blur">
-          [ API YouTube Player ]
-        </span>
+      <div className="aspect-video bg-slate-900 rounded-xl overflow-hidden relative shadow-md border-2 border-slate-800">
+        {tutorial.videoId !== "video-falso" ? (
+          <iframe 
+            src={`https://www.youtube.com/embed/${tutorial.videoId}?rel=0`}
+            title={tutorial.title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowFullScreen
+            className="absolute inset-0 w-full h-full border-0"
+          ></iframe>
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center text-slate-500 text-xs">
+            [ Vídeo Não Disponível ]
+          </div>
+        )}
       </div>
       <p className="text-[10px] text-center text-slate-400 mt-2">Assista ao vídeo da aula antes de consultar o material de apoio.</p>
     </div>
 
-    {/* Conteúdo Teórico Resumido */}
     <div className="mb-8">
       <h3 className="font-bold text-slate-800 mb-4 flex items-center gap-2 border-b border-slate-200 pb-2">
         <BookOpen className="w-5 h-5 text-blue-500" /> Resumo Teórico
@@ -285,7 +303,6 @@ const TutorialDetailView = ({ tutorial, onBack }) => (
       </div>
     </div>
 
-    {/* Lista de Materiais */}
     <div className="bg-green-50/50 border border-green-100 rounded-xl p-4 mb-8">
       <h3 className="font-bold text-green-800 mb-3 flex items-center gap-2">
         <Zap className="w-4 h-4" /> Materiais Necessários
@@ -299,7 +316,6 @@ const TutorialDetailView = ({ tutorial, onBack }) => (
       </ul>
     </div>
 
-    {/* CONTEÚDO EXCLUSIVO DO APLICATIVO */}
     <div className="bg-slate-900 rounded-xl overflow-hidden shadow-lg border border-slate-700 relative">
       <div className="bg-gradient-to-r from-green-600 to-emerald-500 px-4 py-2 flex items-center gap-2">
         <Code className="w-4 h-4 text-white" />
@@ -330,7 +346,6 @@ const TutorialDetailView = ({ tutorial, onBack }) => (
   </div>
 );
 
-// Aba Sobre / Canvas
 const CanvasView = () => (
   <div className="space-y-4 animate-in fade-in duration-500 pb-12">
     <div className="mb-4">
