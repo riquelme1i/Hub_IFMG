@@ -87,31 +87,20 @@ const HomeView = ({ setActiveTab }) => (
     </div>
 
     <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-      <div className="flex items-center gap-3 mb-4">
-        <div className="bg-green-100 text-green-700 rounded-full p-3">
-          <Users className="w-5 h-5" />
-        </div>
-        <div>
-          <h3 className="text-lg font-bold text-slate-800">Introdução ao Projeto</h3>
-          <p className="text-xs text-slate-500 leading-relaxed">
-            Um menu de boas-vindas com tudo que o aluno precisa para começar a explorar o Hub IFMG.
-          </p>
-        </div>
+      <div className="flex justify-between items-center mb-3">
+        <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+          <Youtube className="w-5 h-5 text-red-600" /> Introdução ao Projeto
+        </h3>
       </div>
-
-      <div className="grid gap-3">
-        <div className="rounded-2xl bg-slate-50 p-4 border border-slate-200">
-          <p className="text-xs text-slate-500">Comece por aqui:</p>
-          <p className="mt-2 text-sm font-semibold text-slate-800">Acesse a trilha de aulas, veja materiais e avance com confiança.</p>
-        </div>
-
-        <div className="rounded-2xl bg-slate-50 p-4 border border-slate-200">
-          <p className="text-xs text-slate-500">O que o app oferece:</p>
-          <ul className="mt-2 space-y-1 text-xs text-slate-600 list-disc list-inside">
-            <li>Conteúdo estruturado para eletrônica</li>
-            <li>Resumos e teoria prática</li>
-            <li>Guias de material e segurança</li>
-          </ul>
+      <div className="aspect-video rounded-3xl bg-slate-100 border border-slate-200 overflow-hidden flex items-center justify-center p-6">
+        <div className="text-center">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-red-100 text-red-600 mb-4">
+            <PlayCircle className="w-6 h-6" />
+          </div>
+          <p className="text-sm font-semibold text-slate-800 mb-2">Apresentação da equipe do projeto</p>
+          <p className="text-xs text-slate-500 max-w-xs mx-auto">
+            Aqui ficará o vídeo de apresentação. Ele mostrará a equipe, o objetivo do projeto e como o app complementa as videoaulas. (Em breve)
+          </p>
         </div>
       </div>
     </div>
