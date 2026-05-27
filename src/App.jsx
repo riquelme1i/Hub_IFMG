@@ -92,31 +92,28 @@ const HomeView = ({ setActiveTab }) => (
           <Users className="w-5 h-5" />
         </div>
         <div>
-          <h3 className="text-lg font-bold text-slate-800">Seja bem-vindo ao Hub IFMG</h3>
+          <h3 className="text-lg font-bold text-slate-800">Introdução ao Projeto</h3>
           <p className="text-xs text-slate-500 leading-relaxed">
-            Um ponto de partida com conteúdo prático, trilhas de estudo e material exclusivo para sua jornada em eletrônica.
+            Um menu de boas-vindas com tudo que o aluno precisa para começar a explorar o Hub IFMG.
           </p>
         </div>
       </div>
 
       <div className="grid gap-3">
         <div className="rounded-2xl bg-slate-50 p-4 border border-slate-200">
-          <p className="text-xs text-slate-500">Comece aqui:</p>
-          <p className="mt-2 text-sm font-semibold text-slate-800">Trilhas de aulas, tutoriais e apoio para o seu projeto.</p>
+          <p className="text-xs text-slate-500">Comece por aqui:</p>
+          <p className="mt-2 text-sm font-semibold text-slate-800">Acesse a trilha de aulas, veja materiais e avance com confiança.</p>
         </div>
 
         <div className="rounded-2xl bg-slate-50 p-4 border border-slate-200">
-          <p className="text-xs text-slate-500">O que você encontra:</p>
+          <p className="text-xs text-slate-500">O que o app oferece:</p>
           <ul className="mt-2 space-y-1 text-xs text-slate-600 list-disc list-inside">
-            <li>Resumo prático das aulas</li>
-            <li>Materiais e códigos exclusivos</li>
-            <li>Direcionamento para os próximos passos</li>
+            <li>Conteúdo estruturado para eletrônica</li>
+            <li>Resumos e teoria prática</li>
+            <li>Guias de material e segurança</li>
           </ul>
         </div>
       </div>
-      <p className="text-xs text-slate-500 leading-relaxed">
-        Aqui ficará um vídeo de apresentação do projeto. O conteúdo foi removido para manter o aplicativo limpo até que você adicione o vídeo oficial do projeto.
-      </p>
     </div>
 
     <div className="bg-slate-800 rounded-2xl p-5 text-white shadow-sm flex items-center justify-between">
