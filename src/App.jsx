@@ -142,7 +142,7 @@ const HomeView = ({ setActiveTab }) => (
 const tutoriaisData = [
   {
     id: 1,
-    videoId: "NdrGhXoS1uc", // <-- ID DO SEU VÍDEO AQUI
+    videoId: "Video", // <-- ID DO SEU VÍDEO AQUI
     title: "Seu Vídeo de Teste",
     module: "Módulo 1",
     duration: "Assistir",
