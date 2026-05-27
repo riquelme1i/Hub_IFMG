@@ -28,7 +28,7 @@ export default function App() {
         <div className="max-w-md mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Zap className="w-6 h-6 text-yellow-300 fill-yellow-300" />
-            <h1 className="text-xl font-bold tracking-tight">Hub IFMG Cidadã</h1>
+            <h1 className="text-xl font-bold tracking-tight">TechTutor</h1>
           </div>
           <span className="text-[10px] font-bold uppercase tracking-wider bg-green-800 px-2 py-1 rounded-full border border-green-600">
             TechTutor
