@@ -99,7 +99,7 @@ const HomeView = ({ setActiveTab }) => (
       <div className="aspect-video bg-slate-100 rounded-xl overflow-hidden relative border border-slate-200 shadow-sm">
          {/* Reprodutor Embutido do YouTube */}
          <iframe 
-          src="https://www.youtube.com/embed/NdrGhXoS1uc?rel=0"
+          src=""
           title="Vídeo de Introdução"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
           allowFullScreen
