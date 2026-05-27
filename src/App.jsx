@@ -87,22 +87,32 @@ const HomeView = ({ setActiveTab }) => (
     </div>
 
     <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-      <div className="flex items-center gap-3 mb-3">
+      <div className="flex items-center gap-3 mb-4">
         <div className="bg-green-100 text-green-700 rounded-full p-3">
           <Users className="w-5 h-5" />
         </div>
         <div>
-          <h3 className="text-lg font-bold text-slate-800">Hub IFMG Cidadã</h3>
+          <h3 className="text-lg font-bold text-slate-800">Seja bem-vindo ao Hub IFMG</h3>
           <p className="text-xs text-slate-500 leading-relaxed">
-            Uma base de apoio com o tema do site, preparada para você usar como banner principal do projeto.
+            Um ponto de partida com conteúdo prático, trilhas de estudo e material exclusivo para sua jornada em eletrônica.
           </p>
         </div>
       </div>
-      <div className="rounded-2xl bg-gradient-to-r from-green-600 via-emerald-500 to-slate-900 p-4 text-white shadow-inner">
-        <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-green-100">Tema da Plataforma</h4>
-        <p className="text-xs text-green-100/90 mt-2">
-          Espaço dedicado para estudos práticos de eletrônica, automação e tecnologia com identidade visual limpa e envolvente.
-        </p>
+
+      <div className="grid gap-3">
+        <div className="rounded-2xl bg-slate-50 p-4 border border-slate-200">
+          <p className="text-xs text-slate-500">Comece aqui:</p>
+          <p className="mt-2 text-sm font-semibold text-slate-800">Trilhas de aulas, tutoriais e apoio para o seu projeto.</p>
+        </div>
+
+        <div className="rounded-2xl bg-slate-50 p-4 border border-slate-200">
+          <p className="text-xs text-slate-500">O que você encontra:</p>
+          <ul className="mt-2 space-y-1 text-xs text-slate-600 list-disc list-inside">
+            <li>Resumo prático das aulas</li>
+            <li>Materiais e códigos exclusivos</li>
+            <li>Direcionamento para os próximos passos</li>
+          </ul>
+        </div>
       </div>
     </div>
 
