@@ -28,7 +28,7 @@ export default function App() {
         <div className="max-w-md mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Zap className="w-6 h-6 text-yellow-300 fill-yellow-300" />
-            <h1 className="text-xl font-bold tracking-tight">TechTutor</h1>
+            <h1 className="text-xl font-bold tracking-tight">Hub IFMG Cidadã</h1>
           </div>
           <span className="text-[10px] font-bold uppercase tracking-wider bg-green-800 px-2 py-1 rounded-full border border-green-600">
             TechTutor
@@ -86,26 +86,15 @@ const HomeView = ({ setActiveTab }) => (
       </div>
     </div>
 
-    {/* Apresentação do Projeto COM O VÍDEO REAL */}
     <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
       <div className="flex justify-between items-center mb-3">
         <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
           <Youtube className="w-5 h-5 text-red-600" /> Introdução ao Projeto
         </h3>
-        <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded">VÍDEO 1</span>
       </div>
-      <p className="text-xs text-slate-500 mb-3">Conheça nossa equipe, objetivos e como utilizar este aplicativo em conjunto com nosso canal.</p>
-      
-      <div className="aspect-video bg-slate-100 rounded-xl overflow-hidden relative border border-slate-200 shadow-sm">
-         {/* Reprodutor Embutido do YouTube */}
-         <iframe 
-          src=""
-          title="Vídeo de Introdução"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowFullScreen
-          className="absolute inset-0 w-full h-full border-0"
-        ></iframe>
-      </div>
+      <p className="text-xs text-slate-500 leading-relaxed">
+        Aqui ficará um vídeo de apresentação do projeto. O conteúdo foi removido para manter o aplicativo limpo até que você adicione o vídeo oficial do projeto.
+      </p>
     </div>
 
     <div className="bg-slate-800 rounded-2xl p-5 text-white shadow-sm flex items-center justify-between">
@@ -142,15 +131,14 @@ const HomeView = ({ setActiveTab }) => (
 const tutoriaisData = [
   {
     id: 1,
-    videoId: "Video", // <-- ID DO SEU VÍDEO AQUI
-    title: "Seu Vídeo de Teste",
+    videoId: "video-falso",
+    title: "Introdução ao Projeto",
     module: "Módulo 1",
-    duration: "Assistir",
-    desc: "Apresentamos os três pilares que fazem qualquer aparelho funcionar: Tensão, Corrente e Resistência.",
+    duration: "Em Breve",
+    desc: "Apresente o projeto ao público e mostre como o app complementa as videoaulas.",
     imgColor: "bg-blue-100 text-blue-600",
     icon: <Zap className="w-8 h-8" />,
-    // A linha abaixo puxa a imagem de capa (thumbnail) oficial direto do YouTube usando o ID
-    thumbnail: "https://img.youtube.com/vi/NdrGhXoS1uc/hqdefault.jpg", 
+    thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
     materials: ["Bateria 9V", "Resistor de 1kΩ", "LED", "Protoboard", "Fios"],
     teoria: [
       { titulo: "A Pressão (Tensão / V)", texto: "Imagine uma caixa d'água no alto. Quanto mais alta, mais força a água tem para descer. É o 'empurrão'." },
