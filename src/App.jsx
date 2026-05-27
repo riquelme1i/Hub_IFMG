@@ -114,6 +114,9 @@ const HomeView = ({ setActiveTab }) => (
           </ul>
         </div>
       </div>
+      <p className="text-xs text-slate-500 leading-relaxed">
+        Aqui ficará um vídeo de apresentação do projeto. O conteúdo foi removido para manter o aplicativo limpo até que você adicione o vídeo oficial do projeto.
+      </p>
     </div>
 
     <div className="bg-slate-800 rounded-2xl p-5 text-white shadow-sm flex items-center justify-between">
